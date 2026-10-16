@@ -1,0 +1,25 @@
+RACEDAY API - START HERE
+
+1) Unzip this folder somewhere easy to find, such as Documents.
+2) Open RaceDay.sln in Visual Studio 2022.
+3) In Solution Explorer, right-click RaceDay.API and select Set as Startup Project.
+4) Make sure the selected run target is RaceDay.API, NOT Docker.
+5) Build > Build Solution. Restore NuGet packages if asked.
+6) Check SQL Server LocalDB exists. The default connection is (localdb)\MSSQLLocalDB.
+7) Open Tools > NuGet Package Manager > Package Manager Console.
+   Set Default project to RaceDay.API, then run:
+       Add-Migration InitialCreate
+       Update-Database
+   If Add-Migration is not recognised, install Microsoft.EntityFrameworkCore.Tools version 8.0.11 in RaceDay.API.
+8) Press Ctrl+F5 and open Swagger if it does not open automatically.
+9) Register a fresh Organiser account and a fresh Participant account using /api/auth/register.
+   Password must be at least 8 characters. Do not use the fake passwords in the original SQL seed data.
+10) Login using /api/auth/login. Copy the token, click Swagger Authorize and paste the token (Bearer prefix may be added automatically).
+11) Test endpoints using the README's suggested sequence.
+12) Run Test > Run All Tests, or from a terminal in this folder: dotnet test RaceDay.sln
+
+IMPORTANT:
+- This is a generated starter implementation based on your supplied plan and SQL. You MUST build it on your computer and resolve any environment-specific issues before submitting.
+- Change the development JWT key for any real deployment. Do not publish real secrets.
+- The supplied requirements permit role selection during registration. That is convenient for assignment testing but unsafe for a real public system; mention this limitation if asked about security.
+- The API uses EF Core Code First. Do not run the old SQL script to create a second conflicting database unless your lecturer specifically asks you to use that script.
