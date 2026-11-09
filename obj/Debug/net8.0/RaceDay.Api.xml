@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RaceDay.Api</name>
+    </assembly>
+    <members>
+        <member name="M:RaceDay.Api.Controllers.AuthController.Register(RaceDay.Api.DTOs.RegisterDto)">
+            <summary>Register a new account as an Organiser or a Participant.</summary>
+            <remarks>
+            Expects first name, last name, email, password (min 8 characters), role ("Organiser" or "Participant"),
+            and optionally phone number and date of birth. Registering as an Organiser also requires the
+            organiser code, so that nobody can simply give themselves organiser rights.
+            Returns the created user (the password is never returned).
+            </remarks>
+        </member>
+        <member name="M:RaceDay.Api.Controllers.AuthController.Login(RaceDay.Api.DTOs.LoginDto)">
+            <summary>Log in with email and password.</summary>
+            <remarks>On success a session cookie is issued that holds the user's id and role for all subsequent requests.</remarks>
+        </member>
+        <member name="M:RaceDay.Api.Controllers.AuthController.Logout">
+            <summary>Log out and end the current session.</summary>
+        </member>
+        <member name="M:RaceDay.Api.Controllers.CategoriesController.GetCategories(System.Int32)">
+            <summary>View the categories available for an event (Organiser and Participant).</summary>
+        </member>
+        <member name="M:RaceDay.Api.Controllers.CategoriesController.CreateCategory(System.Int32,RaceDay.Api.DTOs.CategoryRequestDto)">
+            <summary>Define an age or distance category for an event (Organiser who created the event only).</summary>
+            <remarks>Expects a name (e.g. "Under 20", "Senior", "10km", "21km") and a category type (Age or Distance).</remarks>
+        </member>
+        <member name="M:RaceDay.Api.Controllers.CategoriesController.UpdateCategory(System.Int32,System.Int32,RaceDay.Api.DTOs.CategoryRequestDto)">
+            <summary>Rename or change the type of a category (Organiser who created the event only).</summary>
+        </member>
+        <member name="M:RaceDay.Api.Controllers.CategoriesController.DeleteCategory(System.Int32,System.Int32)">
+            <summary>Delete a category that nobody has enrolled in yet (Organiser who created the event only).</summary>
+        </member>
+        <member name="M:RaceDay.Api.Controllers.EnrolmentsController.Enrol(RaceDay.Api.DTOs.EnrolRequestDto)">
+            <summary>Enter an event by selecting a category (Participant only).</summary>
+            <remarks>
+            Expects the event id and the id of one of that event's categories. A participant can enter an event once,
+            and cannot enter an event that has already taken place.
+            </remarks>
+        </member>
+        <member name="M:RaceDay.Api.Controllers.EnrolmentsController.GetMyEnrolments">
+            <summary>View the logged-in participant's own enrolments (Participant only).</summary>
+        </member>
+        <member name="M:RaceDay.Api.Controllers.EnrolmentsController.GetEventEnrolments(System.Int32)">
+            <summary>View all enrolments for an event (Organiser who created the event only).</summary>
+        </member>
+        <member name="M:RaceDay.Api.Controllers.EventsController.GetEvents(System.Nullable{RaceDay.Api.Models.EventType},System.Boolean)">
+            <summary>Browse events (Organiser and Participant). Optionally filter by type or upcoming events only.</summary>
+        </member>
+        <member name="M:RaceDay.Api.Controllers.EventsController.GetEvent(System.Int32)">
+            <summary>View a single event (Organiser and Participant).</summary>
+        </member>
+        <member name="M:RaceDay.Api.Controllers.EventsController.CreateEvent(RaceDay.Api.DTOs.EventRequestDto)">
+            <summary>Create an event (Organiser only).</summary>
+            <remarks>Expects name, description, event date, location, distance in km and event type (Run, Walk or Cycle).</remarks>
+        </member>
+        <member name="M:RaceDay.Api.Controllers.EventsController.UpdateEvent(System.Int32,RaceDay.Api.DTOs.EventRequestDto)">
+            <summary>Update an event (Organiser who created the event only).</summary>
+        </member>
+        <member name="M:RaceDay.Api.Controllers.EventsController.DeleteEvent(System.Int32)">
+            <summary>Delete an event together with its categories, enrolments and results (Organiser who created the event only).</summary>
+        </member>
+        <member name="M:RaceDay.Api.Controllers.ProfileController.Get">
+            <summary>View the logged-in user's own profile (Organiser and Participant).</summary>
+        </member>
+        <member name="M:RaceDay.Api.Controllers.ProfileController.Update(RaceDay.Api.DTOs.UpdateProfileDto)">
+            <summary>Update the logged-in user's own profile (first name, last name, phone number, date of birth).</summary>
+        </member>
+        <member name="M:RaceDay.Api.Controllers.ResultsController.CaptureResult(System.Int32,RaceDay.Api.DTOs.CaptureResultDto)">
+            <summary>Capture a participant's finish time and finishing position for an event (Organiser who created the event only).</summary>
+            <remarks>
+            Expects the enrolment id (the participant's entry into this event), the finish time as hh:mm:ss and the finishing position.
+            Each enrolment can have one result and each finishing position can be used once per event.
+            </remarks>
+        </member>
+        <member name="M:RaceDay.Api.Controllers.ResultsController.UpdateResult(System.Int32,RaceDay.Api.DTOs.UpdateResultDto)">
+            <summary>Correct a captured result (Organiser who created the event only).</summary>
+        </member>
+        <member name="M:RaceDay.Api.Controllers.ResultsController.GetEventResults(System.Int32)">
+            <summary>View all results captured for an event, ordered by finishing position (Organiser who created the event only).</summary>
+        </member>
+        <member name="M:RaceDay.Api.Controllers.ResultsController.GetMyResults">
+            <summary>View the logged-in participant's own results across all events (Participant only).</summary>
+        </member>
+        <member name="P:RaceDay.Api.DTOs.RegisterDto.Password">
+            <summary>At least 8 characters.</summary>
+        </member>
+        <member name="P:RaceDay.Api.DTOs.RegisterDto.Role">
+            <summary>Either "Organiser" or "Participant".</summary>
+        </member>
+        <member name="P:RaceDay.Api.DTOs.RegisterDto.OrganiserCode">
+            <summary>Required only when registering as an Organiser. Prevents anyone from self-appointing as an Organiser.</summary>
+        </member>
+        <member name="P:RaceDay.Api.DTOs.EventRequestDto.DistanceKm">
+            <summary>Distance in kilometres (0.1 to 1000).</summary>
+        </member>
+        <member name="P:RaceDay.Api.DTOs.EventRequestDto.EventType">
+            <summary>Run, Walk or Cycle.</summary>
+        </member>
+        <member name="P:RaceDay.Api.DTOs.CategoryRequestDto.CategoryType">
+            <summary>Age or Distance.</summary>
+        </member>
+        <member name="P:RaceDay.Api.DTOs.CaptureResultDto.FinishTime">
+            <summary>Finish time in hh:mm:ss format, e.g. 01:45:30.</summary>
+        </member>
+        <member name="P:RaceDay.Api.DTOs.CaptureResultDto.FinishPosition">
+            <summary>Overall finishing position (1 or higher). Must be unique within the event.</summary>
+        </member>
+        <member name="P:RaceDay.Api.DTOs.UpdateResultDto.FinishTime">
+            <summary>Finish time in hh:mm:ss format, e.g. 01:45:30.</summary>
+        </member>
+        <member name="M:RaceDay.Api.DTOs.Mappings.ToResultDto(RaceDay.Api.Models.RaceResult)">
+            <summary>The result's Enrolment (with Event, User and Category) must be loaded.</summary>
+        </member>
+        <member name="M:RaceDay.Api.Extensions.ClaimsPrincipalExtensions.GetUserId(System.Security.Claims.ClaimsPrincipal)">
+            <summary>Returns the id of the logged-in user stored in the session cookie.</summary>
+        </member>
+        <member name="T:RaceDay.Api.Models.EventType">
+            <summary>The kind of road event.</summary>
+        </member>
+        <member name="T:RaceDay.Api.Models.CategoryType">
+            <summary>Whether a category groups participants by age or by distance.</summary>
+        </member>
+        <member name="T:RaceDay.Api.Models.AppRoles">
+            <summary>The two user roles supported by the system.</summary>
+        </member>
+        <member name="T:RaceDay.Api.Services.PasswordService">
+            <summary>
+            Hashes passwords with PBKDF2 (HMAC-SHA256), a random 16 byte salt and 100 000 iterations.
+            Stored format: iterations.salt.hash (Base64). The plain password is never stored.
+            </summary>
+        </member>
+    </members>
+</doc>
